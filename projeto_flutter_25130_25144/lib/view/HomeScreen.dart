@@ -360,17 +360,6 @@ class _MonitorCard extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
-
-              Text(
-                monitor.disciplina,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: tema.textTheme.bodyMedium?.copyWith(
-                  color: tema.colorScheme.onSurfaceVariant,
-                ),
-              ),
 
               const SizedBox(height: 24),
 

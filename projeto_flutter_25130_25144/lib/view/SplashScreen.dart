@@ -39,7 +39,7 @@ class SplashScreen extends StatelessWidget {
               ),
               const SizedBox(height: 28),
               Text(
-                'Monitores DCOMP',
+                'Monitores do DCOMP',
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium

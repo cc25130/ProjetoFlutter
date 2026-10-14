@@ -75,13 +75,6 @@ class HorariosScreen extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-                Text(
-                  monitor.disciplina,
-                  textAlign: TextAlign.center,
-                  style: tema.textTheme.titleMedium?.copyWith(
-                    color: tema.colorScheme.primary,
-                  ),
-                ),
 
                 const SizedBox(height: 8),
 

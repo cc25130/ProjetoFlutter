@@ -1,26 +1,68 @@
+
+import 'package:flutter/foundation.dart';
+
+import 'package:projeto_flutter_25130_25144/model/monitor.dart';
 import 'package:projeto_flutter_25130_25144/model/horario.dart';
 
-enum FiltroMenu {
-  nenhum('Nenhum'), // Estado Neutro Inicial
-  segunda('Segunda-feira'),
-  terca('Terça-feira'),
-  quarta('Quarta-feira'),
-  quinta('Quinta-feira'),
-  sexta('Sexta-feira'),
-  todos('Todos os Monitores');
+class MonitorViewModel extends ChangeNotifier {
+  final List<MonitorModel> _monitores;
 
-  final String titulo;
-  const FiltroMenu(this.titulo);
+  DiaDaSemana? diaSelecionado;
+  bool mostrarTodos = false;
 
-  /// Converte o filtro do menu para o Enum DiaDaSemana correspondente (se houver)
-  DiaDaSemana? get dia {
-    switch (this) {
-      case FiltroMenu.segunda: return DiaDaSemana.segunda;
-      case FiltroMenu.terca: return DiaDaSemana.terca;
-      case FiltroMenu.quarta: return DiaDaSemana.quarta;
-      case FiltroMenu.quinta: return DiaDaSemana.quinta;
-      case FiltroMenu.sexta: return DiaDaSemana.sexta;
-      default: return null;
+  MonitorViewModel(List<MonitorModel> monitores)
+      : _monitores = List.unmodifiable(monitores);
+
+  DiaDaSemana? get DiaSelecionado => diaSelecionado;
+
+  bool get MostrarTodos => mostrarTodos;
+
+
+  List<MonitorModel> get monitoresExibidos {
+
+    if (!mostrarTodos && diaSelecionado == null) { // Dia não selecionado
+      return [];
     }
+
+ 
+    if (mostrarTodos) { // Todos selecionado
+      return _monitores;
+    }
+
+
+    return _monitores.where((monitor) { // Retorna todos os horários de cada monitor com monitoria naquele dia
+      return monitor.horarios.any(
+        (horario) => horario.dia == diaSelecionado,
+      );
+    }).toList();
+  }
+
+  void selecionarDia(DiaDaSemana dia) {
+    diaSelecionado = dia;
+    mostrarTodos = false;
+
+    notifyListeners();
+  }
+
+  void selecionarTodos() {
+    diaSelecionado = null;
+    mostrarTodos = true;
+
+    notifyListeners();
+  }
+
+  
+  List<HorarioModel> horariosDoMonitor(MonitorModel monitor) {
+    if (mostrarTodos) {
+      return monitor.horarios;
+    }
+
+    final dia = diaSelecionado;
+
+    if (dia == null) {
+      return [];
+    }
+
+    return monitor.horariosDoDia(dia);
   }
 }
