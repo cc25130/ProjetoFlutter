@@ -3,10 +3,11 @@ enum DiaDaSemana {
   terca('Terça-feira'),
   quarta('Quarta-feira'),
   quinta('Quinta-feira'),
-  sexta('Sexta-feira');
+  sexta('Sexta-feira'),
+  sabado('Sábado');
 
   final String label;
-  const DiaDaSemana(this.label);
+  const DiaDaSemana(this.label);  
 }
 
 class HorarioModel {

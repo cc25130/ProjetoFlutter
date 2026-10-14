@@ -23,7 +23,6 @@ class MonitorViewModel extends ChangeNotifier {
     if (!mostrarTodos && diaSelecionado == null) { // Dia não selecionado
       return [];
     }
-
  
     if (mostrarTodos) { // Todos selecionado
       return _monitores;
