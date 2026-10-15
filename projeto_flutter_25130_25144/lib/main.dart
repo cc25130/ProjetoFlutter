@@ -1,24 +1,35 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:projeto_flutter_25130_25144/data/mock_monitor.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
+import 'package:projeto_flutter_25130_25144/router/app_router.dart';
 
 void main() {
-  runApp(  );
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => MonitorViewModel(mock_monitor),
+      child: const MeuApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MeuApp extends StatelessWidget {
+  const MeuApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Horários de Monitoria DCOMP',
       debugShowCheckedModeBanner: false,
+      title: 'Monitores DCOMP',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
         ),
       ),
+      routerConfig: appRouter,
     );
   }
 }
