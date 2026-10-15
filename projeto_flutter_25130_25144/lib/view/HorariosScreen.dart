@@ -1,32 +1,27 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:projeto_flutter_25130_25144/model/monitor.dart';
-import 'package:projeto_flutter_25130_25144/model/horario.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
 
 class HorariosScreen extends StatelessWidget {
   final MonitorModel monitor;
-  final List<HorarioModel> horariosExibidos;
-  final DiaDaSemana? diaSelecionado;
-  final bool mostrarTodos;
 
   const HorariosScreen({
     super.key,
     required this.monitor,
-    required this.horariosExibidos,
-    required this.mostrarTodos,
-    this.diaSelecionado,
   });
 
   @override
   Widget build(BuildContext context) {
     final tema = Theme.of(context);
+    final vm = context.watch<MonitorViewModel>();
+    final horariosExibidos = vm.horariosDoMonitor(monitor);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Horários de atendimento'),
       ),
-
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
@@ -75,9 +70,6 @@ class HorariosScreen extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-
-                const SizedBox(height: 8),
-
                 Text(
                   monitor.email,
                   textAlign: TextAlign.center,
@@ -91,9 +83,9 @@ class HorariosScreen extends StatelessWidget {
                 Chip(
                   avatar: const Icon(Icons.schedule_rounded),
                   label: Text(
-                    mostrarTodos
+                    vm.mostrarTodos
                         ? 'Todos os dias de atendimento'
-                        : 'Atendimento: ${diaSelecionado!.label}',
+                        : 'Atendimento: ${vm.diaSelecionado?.label ?? ""}',
                   ),
                 ),
               ],
@@ -144,7 +136,7 @@ class HorariosScreen extends StatelessWidget {
                   ),
 
                   title: Text(
-                    mostrarTodos
+                    vm.mostrarTodos
                         ? horario.dia.label
                         : 'Atendimento',
                     style: tema.textTheme.titleMedium?.copyWith(
@@ -160,10 +152,7 @@ class HorariosScreen extends StatelessWidget {
                         Text(
                           '${horario.horaInicio} – ${horario.horaFim}',
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Local: ${horario.local}',
-                        ),
+                       
                       ],
                     ),
                   ),

@@ -1,62 +1,56 @@
-
 import 'package:flutter/foundation.dart';
 
-import 'package:projeto_flutter_25130_25144/model/monitor.dart';
 import 'package:projeto_flutter_25130_25144/model/horario.dart';
+import 'package:projeto_flutter_25130_25144/model/monitor.dart';
 
 class MonitorViewModel extends ChangeNotifier {
   final List<MonitorModel> _monitores;
 
-  DiaDaSemana? diaSelecionado;
-  bool mostrarTodos = false;
+  DiaDaSemana? _diaSelecionado;
+  bool _mostrarTodos = false;
 
   MonitorViewModel(List<MonitorModel> monitores)
       : _monitores = List.unmodifiable(monitores);
 
-  DiaDaSemana? get DiaSelecionado => diaSelecionado;
-
-  bool get MostrarTodos => mostrarTodos;
-
+  DiaDaSemana? get diaSelecionado => _diaSelecionado;
+  bool get mostrarTodos => _mostrarTodos;
 
   List<MonitorModel> get monitoresExibidos {
-
-    if (!mostrarTodos && diaSelecionado == null) { // Dia não selecionado
+    if (!_mostrarTodos && _diaSelecionado == null) {
       return [];
     }
- 
-    if (mostrarTodos) { // Todos selecionado
+
+    if (_mostrarTodos) {
       return _monitores;
     }
 
-
-    return _monitores.where((monitor) { // Retorna todos os horários de cada monitor com monitoria naquele dia
+    return _monitores.where((monitor) {
       return monitor.horarios.any(
-        (horario) => horario.dia == diaSelecionado,
+        (horario) => horario.dia == _diaSelecionado,
       );
     }).toList();
   }
 
   void selecionarDia(DiaDaSemana dia) {
-    diaSelecionado = dia;
-    mostrarTodos = false;
+    _diaSelecionado = dia;
+    _mostrarTodos = false;
 
     notifyListeners();
   }
 
   void selecionarTodos() {
-    diaSelecionado = null;
-    mostrarTodos = true;
+    _diaSelecionado = null;
+    _mostrarTodos = true;
 
     notifyListeners();
   }
 
-  
   List<HorarioModel> horariosDoMonitor(MonitorModel monitor) {
-    if (mostrarTodos) {
+    if (_mostrarTodos) {
       return monitor.horarios;
     }
 
-    final dia = diaSelecionado;
+    final dia = _diaSelecionado;
 
     if (dia == null) {
       return [];

@@ -1,64 +1,47 @@
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        context.go('/home');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final tema = Theme.of(context);
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              colorScheme.primaryContainer,
-              colorScheme.surface,
-            ],
-          ),
-        ),
-        child: SafeArea(
+      body: SafeArea(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: colorScheme.surface,
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                child: Icon(
-                  Icons.school_rounded,
-                  size: 72,
-                  color: colorScheme.primary,
+              Text(
+                'Monitores DCOMP',
+                style: tema.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 8),
               Text(
-                'Monitores do DCOMP',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
-                    ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Encontre os horários de atendimento',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                'Horários de Atendimento',
+                style: tema.textTheme.bodyMedium,
               ),
               const SizedBox(height: 40),
-              CircularProgressIndicator(
-                color: colorScheme.primary,
-                strokeWidth: 3,
-              ),
+              const CircularProgressIndicator(),
             ],
           ),
         ),

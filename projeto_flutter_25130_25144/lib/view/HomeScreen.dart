@@ -1,23 +1,15 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:projeto_flutter_25130_25144/model/monitor.dart';
 import 'package:projeto_flutter_25130_25144/model/horario.dart';
+import 'package:projeto_flutter_25130_25144/model/monitor.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<MonitorModel> monitores;
-  final DiaDaSemana? diaSelecionado;
-  final bool mostrarTodos;
-
-  final ValueChanged<DiaDaSemana?> onSelecionarDia;
   final ValueChanged<MonitorModel> onAbrirMonitor;
 
   const HomeScreen({
     super.key,
-    required this.monitores,
-    required this.diaSelecionado,
-    required this.mostrarTodos,
-    required this.onSelecionarDia,
     required this.onAbrirMonitor,
   });
 
@@ -31,24 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     _pageController = PageController(
       viewportFraction: 0.78,
     );
-  }
-
-  @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.diaSelecionado != widget.diaSelecionado ||
-        oldWidget.mostrarTodos != widget.mostrarTodos) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _pageController.hasClients) {
-          _pageController.jumpToPage(0);
-        }
-      });
-    }
   }
 
   @override
@@ -57,93 +34,84 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  String get _titulo {
-    if (widget.mostrarTodos) {
+  String _titulo(MonitorViewModel vm) {
+    if (vm.mostrarTodos) {
       return 'Todos os monitores';
     }
+    return 'Monitores de ${vm.diaSelecionado!.label}';
+  }
 
-    return 'Monitores de ${widget.diaSelecionado!.label}';
+  void _resetarCarrossel() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _pageController.hasClients) {
+        _pageController.jumpToPage(0);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final tema = Theme.of(context);
+    final vm = context.watch<MonitorViewModel>();
+    final monitores = vm.monitoresExibidos;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Monitores DCOMP'),
       ),
-
       drawer: Drawer(
         child: SafeArea(
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(
-                  color: tema.colorScheme.primaryContainer,
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.school_rounded,
-                      size: 38,
-                      color: tema.colorScheme.onPrimaryContainer,
-                    ),
-                    const SizedBox(height: 12),
                     Text(
-                      'Monitores acadêmicos',
-                      style: tema.textTheme.titleMedium?.copyWith(
+                      'Monitores DCOMP',
+                      style: tema.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: tema.colorScheme.onPrimaryContainer,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Consulte os horários de atendimento',
-                      style: tema.textTheme.bodySmall?.copyWith(
-                        color: tema.colorScheme.onPrimaryContainer,
-                      ),
+                      'Selecione um dia',
+                      style: tema.textTheme.bodyMedium,
                     ),
                   ],
                 ),
               ),
-
               for (final dia in DiaDaSemana.values)
                 ListTile(
-                  leading: const Icon(Icons.calendar_today_rounded),
                   title: Text(dia.label),
-                  selected: !widget.mostrarTodos &&
-                      widget.diaSelecionado == dia,
+                  selected: !vm.mostrarTodos && vm.diaSelecionado == dia,
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onSelecionarDia(dia);
+                    context.read<MonitorViewModel>().selecionarDia(dia);
+                    _resetarCarrossel();
                   },
                 ),
-
               const Divider(),
-
               ListTile(
-                leading: const Icon(Icons.groups_rounded),
                 title: const Text('Todos'),
-                selected: widget.mostrarTodos,
+                selected: vm.mostrarTodos,
                 onTap: () {
                   Navigator.pop(context);
-                  widget.onSelecionarDia(null);
+                  context.read<MonitorViewModel>().selecionarTodos();
+                  _resetarCarrossel();
                 },
               ),
             ],
           ),
         ),
       ),
-
-      body: !widget.mostrarTodos && widget.diaSelecionado == null
+      body: !vm.mostrarTodos && vm.diaSelecionado == null
           ? _buildEstadoInicial(context)
-          : widget.monitores.isEmpty
+          : monitores.isEmpty
               ? _buildEstadoVazio(context)
-              : _buildCarrossel(context),
+              : _buildCarrossel(context, vm, monitores),
     );
   }
 
@@ -152,31 +120,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.calendar_month_rounded,
-              size: 72,
-              color: tema.colorScheme.primary,
-            ),
-            const SizedBox(height: 20),
             Text(
               'Encontre seu monitor',
-              textAlign: TextAlign.center,
-              style: tema.textTheme.headlineSmall?.copyWith(
+              style: tema.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Text(
-              'Abra o menu lateral e selecione um dia da semana '
-              'ou Todos para consultar os monitores disponíveis.',
+              'Abra o menu lateral para selecionar um dia da semana.',
               textAlign: TextAlign.center,
-              style: tema.textTheme.bodyLarge?.copyWith(
-                color: tema.colorScheme.onSurfaceVariant,
-              ),
+              style: tema.textTheme.bodyMedium,
             ),
           ],
         ),
@@ -189,24 +147,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.event_busy_rounded,
-              size: 64,
-            ),
-            const SizedBox(height: 16),
             Text(
-              'Nenhum monitor encontrado',
-              textAlign: TextAlign.center,
+              'Nenhum monitor disponível',
               style: tema.textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Não há monitores cadastrados para esta seleção.',
-              textAlign: TextAlign.center,
+            Text(
+              'Não há monitores para esta seleção.',
+              style: tema.textTheme.bodyMedium,
             ),
           ],
         ),
@@ -214,82 +166,47 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCarrossel(BuildContext context) {
+  Widget _buildCarrossel(
+    BuildContext context,
+    MonitorViewModel vm,
+    List<MonitorModel> monitores,
+  ) {
     final tema = Theme.of(context);
 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _titulo,
-                    style: tema.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    '${widget.monitores.length} '
-                    '${widget.monitores.length == 1 ? 'monitor encontrado' : 'monitores encontrados'}',
-                    style: tema.textTheme.bodyMedium?.copyWith(
-                      color: tema.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              _titulo(vm),
+              style: tema.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: monitores.length,
+              itemBuilder: (context, index) {
+                final monitor = monitores[index];
 
-            const SizedBox(height: 16),
-
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: widget.monitores.length,
-                itemBuilder: (context, index) {
-                  final monitor = widget.monitores[index];
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 12,
-                    ),
-                    child: _MonitorCard(
-                      monitor: monitor,
-                      onTap: () => widget.onAbrirMonitor(monitor),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.swipe_rounded,
-                    color: tema.colorScheme.onSurfaceVariant,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Deslize para visualizar outros monitores',
-                    style: tema.textTheme.bodySmall?.copyWith(
-                      color: tema.colorScheme.onSurfaceVariant,
-                    ),
+                  child: _MonitorCard(
+                    monitor: monitor,
+                    onTap: () => widget.onAbrirMonitor(monitor),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -309,65 +226,55 @@ class _MonitorCard extends StatelessWidget {
     final tema = Theme.of(context);
 
     return Card(
-      clipBehavior: Clip.antiAlias,
-      elevation: 2,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: tema.colorScheme.outlineVariant),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipOval(
                 child: monitor.foto.trim().isEmpty
                     ? Container(
-                        width: 132,
-                        height: 132,
-                        color: tema.colorScheme.secondaryContainer,
-                        child: const Icon(
-                          Icons.person_rounded,
-                          size: 64,
-                        ),
+                        width: 120,
+                        height: 120,
+                        color: tema.colorScheme.surfaceContainerHigh,
                       )
                     : Image.network(
                         monitor.foto,
-                        width: 132,
-                        height: 132,
+                        width: 120,
+                        height: 120,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            width: 132,
-                            height: 132,
-                            color: tema.colorScheme.secondaryContainer,
-                            child: const Icon(
-                              Icons.person_rounded,
-                              size: 64,
-                            ),
+                            width: 120,
+                            height: 120,
+                            color: tema.colorScheme.surfaceContainerHigh,
                           );
                         },
                       ),
               ),
-
               const SizedBox(height: 24),
-
               Text(
                 monitor.nome,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: tema.textTheme.titleLarge?.copyWith(
+                style: tema.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
-
-              const SizedBox(height: 24),
-
+              const SizedBox(height: 16),
               Text(
-                'Ver horários  →',
-                style: tema.textTheme.labelLarge?.copyWith(
+                'Ver horários',
+                style: tema.textTheme.labelMedium?.copyWith(
                   color: tema.colorScheme.primary,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

@@ -14,12 +14,11 @@ class HorarioModel {
   final DiaDaSemana dia;
   final String horaInicio;
   final String horaFim;
-  final String local;
+
 
   const HorarioModel({
     required this.dia,
     required this.horaInicio,
     required this.horaFim,
-    required this.local,
   });
 }
