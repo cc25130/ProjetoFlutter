@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projeto_flutter_25130_25144/model/monitor.dart';
-import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitorViewmodel.dart';
 
 class HorariosScreen extends StatelessWidget {
   final MonitorModel monitor;

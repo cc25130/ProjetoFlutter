@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projeto_flutter_25130_25144/data/mock_monitor.dart';
-import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
-import 'package:projeto_flutter_25130_25144/router/app_router.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitorViewmodel.dart';
+import 'package:projeto_flutter_25130_25144/router/approuter.dart';
 
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => MonitorViewModel(mock_monitor),
+      create: (context) => MonitorViewModel(monitoresMock),
       child: const MeuApp(),
     ),
   );

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:projeto_flutter_25130_25144/model/horario.dart';
 import 'package:projeto_flutter_25130_25144/model/monitor.dart';
-import 'package:projeto_flutter_25130_25144/viewmodel/monitor_viewmodel.dart';
+import 'package:projeto_flutter_25130_25144/viewmodel/monitorViewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   final ValueChanged<MonitorModel> onAbrirMonitor;

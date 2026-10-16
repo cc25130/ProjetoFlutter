@@ -12,37 +12,37 @@ final List<MonitorModel> monitoresMock = [
         dia: DiaDaSemana.segunda,
         horaInicio: '07:30',
         horaFim: '12:15',
-        local: 'Laboratório do DCOMP',
+    
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '18:15',
         horaFim: '19:45',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '07:30',
         horaFim: '09:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '07:30',
         horaFim: '10:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '13:30',
         horaFim: '15:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
     ],
   ),
@@ -56,44 +56,44 @@ final List<MonitorModel> monitoresMock = [
         dia: DiaDaSemana.segunda,
         horaInicio: '14:15',
         horaFim: '15:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.terca,
         horaInicio: '07:30',
         horaFim: '08:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '07:30',
         horaFim: '12:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '8:15',
         horaFim: '10:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '07:30',
         horaFim: '09:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '16:00',
         horaFim: '18:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
     ],
   ),
@@ -107,49 +107,49 @@ final List<MonitorModel> monitoresMock = [
         dia: DiaDaSemana.segunda,
         horaInicio: '14:15',
         horaFim: '15:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.terca,
         horaInicio: '07:30',
         horaFim: '08:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '07:30',
         horaFim: '12:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '07:30',
         horaFim: '10:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '07:30',
         horaFim: '09:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sexta,
         horaInicio: '16:00',
         horaFim: '16:45',
-        local: 'Laboratório do DCOMP',
+       
       ),
     ],
   ),
@@ -163,25 +163,25 @@ final List<MonitorModel> monitoresMock = [
         dia: DiaDaSemana.segunda,
         horaInicio: '16:45',
         horaFim: '21:30',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.terca,
         horaInicio: '16:45',
         horaFim: '18:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '18:15',
         horaFim: '21:30',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '16:45',
         horaFim: '21:30',
-        local: 'Laboratório do DCOMP',
+       
       ),
     ],
   ),
@@ -195,31 +195,31 @@ final List<MonitorModel> monitoresMock = [
         dia: DiaDaSemana.terca,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.terca,
         horaInicio: '16:45',
         horaFim: '21:00',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quarta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.quinta,
         horaInicio: '13:30',
         horaFim: '14:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
       HorarioModel(
         dia: DiaDaSemana.sabado,
         horaInicio: '07:30',
         horaFim: '12:15',
-        local: 'Laboratório do DCOMP',
+       
       ),
     ],
   ),

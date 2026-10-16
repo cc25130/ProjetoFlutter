@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
 
 import 'package:projeto_flutter_25130_25144/model/monitor.dart';
-import 'package:projeto_flutter_25130_25144/view/home_screen.dart';
-import 'package:projeto_flutter_25130_25144/view/horarios_screen.dart';
-import 'package:projeto_flutter_25130_25144/view/splash_screen.dart';
+import 'package:projeto_flutter_25130_25144/view/HomeScreen.dart';
+import 'package:projeto_flutter_25130_25144/view/HorariosScreen.dart';
+import 'package:projeto_flutter_25130_25144/view/SplashScreen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
